@@ -1,0 +1,65 @@
+* {
+  //border:1px solid black;
+}
+
+
+.imagenes{
+   .centrar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+   }
+   .row{
+      margin-top:80px;
+   }
+   img{
+      width: 100%;
+   }
+}
+@keyframes animacionPrincipal {
+   0% {
+     transform: scale3d(1, 1, 1);
+   }
+   30% {
+     transform: scale3d(1.25, 0.75, 1);
+   }
+   40% {
+     transform: scale3d(0.75, 1.25, 1);
+   }
+   50% {
+     transform: scale3d(1.15, 0.85, 1);
+   }
+   65% {
+     transform: scale3d(0.95, 1.05, 1);
+   }
+   75% {
+     transform: scale3d(1.05, 0.95, 1);
+   }
+   100% {
+     transform: scale3d(1, 1, 1);
+   }
+ }
+ 
+ .animacionPrincipal {
+   animation: animacionPrincipal 1s both;
+ }
+ 
+ .principal {
+   height: 100vh;
+   max-height:100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   box-shadow: -1px 23px 32px -4px rgba(0,0,0,0.27);
+   background-image: url(../../assets/images/principal/ImagenFondo.jpg);
+   background-repeat: no-repeat;
+   background-size: cover;
+   .contenido {
+     text-align: center;
+     h1,
+     h2 {
+       margin-bottom: 20px;
+     }
+   }
+ }

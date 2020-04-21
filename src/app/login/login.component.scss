@@ -1,0 +1,58 @@
+.container{
+    margin-top: 100px;
+}
+*{
+    //border: 1px solid black;
+}
+.formulario {
+    height: 400px;
+    width: 350px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: #f39c12;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 13px 18px 51px -9px rgba(0,0,0,0.75);
+    border-radius: 5px;
+
+
+}
+
+.logo_form {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    background: #f39c12;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid black;
+}
+.logo {
+    height: 140px;
+    width: 140px;
+    
+}
+.form_container {
+    margin-top: 100px;
+}
+.login_btn {
+    width: 100%;
+    background: #c0392b ;
+    color: white;
+}
+
+.login_container {
+    padding: 0 2rem;
+}
+.input-group-text {
+    background: #c0392b ;
+    color: white ;
+    border: 0 ;
+    border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
