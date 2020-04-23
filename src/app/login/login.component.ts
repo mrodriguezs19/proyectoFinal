@@ -7,10 +7,16 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  
+  // LINEAS BLANCAS SI HAY CONTENIDO
+
   constructor() { }
 
   ngOnInit(): void {
+    
+    
+
   }
+
+
 
 }

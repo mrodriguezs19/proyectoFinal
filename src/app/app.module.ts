@@ -12,6 +12,7 @@ import { RegistroComponent } from "./registro/registro.component";
 import { FuncionamientoComponent } from './funcionamiento/funcionamiento.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     RegistroComponent,
     FuncionamientoComponent,
     LoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule,
     ReactiveFormsModule,RouterModule.forRoot(appRoutes)],

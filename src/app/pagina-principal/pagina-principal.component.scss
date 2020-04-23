@@ -17,6 +17,7 @@
       width: 100%;
    }
 }
+
 @keyframes animacionPrincipal {
    0% {
      transform: scale3d(1, 1, 1);
@@ -51,10 +52,20 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   box-shadow: -1px 23px 32px -4px rgba(0,0,0,0.27);
    background-image: url(../../assets/images/principal/ImagenFondo.jpg);
    background-repeat: no-repeat;
-   background-size: cover;
+  background-size: cover;
+  
+   button{
+     padding: 15px;
+     border: none;
+     border-radius: 15px;
+     background-color: rgb(102, 199, 5);
+     &:hover{
+      background-color: rgb(132, 255, 8);
+      color: white;
+     }
+   }
    .contenido {
      text-align: center;
      h1,

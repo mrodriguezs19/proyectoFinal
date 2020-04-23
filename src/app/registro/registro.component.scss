@@ -1,58 +1,93 @@
-.container{
-    margin-top: 100px;
-}
-*{
-    //border: 1px solid black;
+
+.fondo{
+  height: 100vh;
+  background-image: url(../../assets/images/login/food-1932466_1920.jpg);
+  background-repeat: no-repeat;
+ background-size: cover;
+ padding: 0px;
+ .blanco{
+     background-color: rgba(255,255,255,0.8);
+     height: 100vh;
+     width: 100%;
+
+ }
 }
 .formulario {
-    height: 400px;
-    width: 350px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background: #f39c12;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 10px;
-    box-shadow: 13px 18px 51px -9px rgba(0,0,0,0.75);
-    border-radius: 5px;
+  
+  width: 350px;
+  margin-top: 30px;
+  margin-bottom: auto;
+  background: linear-gradient( 45deg,#56ab2f, #a8e063);
+  color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 13px 18px 51px -9px rgba(0,0,0,0.75);
+  border-radius: 10px;
 
 
 }
 
-.logo_form {
-    position: absolute;
-    height: 170px;
-    width: 170px;
-    top: -75px;
-    border-radius: 50%;
-    background: #f39c12;
-    padding: 10px;
-    text-align: center;
-    border: 2px solid black;
-}
-.logo {
-    height: 140px;
-    width: 140px;
-    
-}
 .form_container {
-    margin-top: 100px;
+  margin-top: 20px;
+  width: 100%;
+}
+form{
+  width: 80%;
 }
 .login_btn {
-    width: 100%;
-    background: #c0392b ;
-    color: white;
+  width: 200px;
+  background-color: white;
+  color: rgb(47, 47, 47);
+  border: none;
+  &:hover{
+      transition: all 0.5s;
+      color: white;
+      background:linear-gradient( 45deg, #a8e063,#56ab2f);
+
+  }
+}
+a{   
+  color: white;
+  font-weight: bold;
+  
+}
+.wrap-input {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid rgba(255,255,255,0.24);
+  margin-bottom: 27px;
 }
 
-.login_container {
-    padding: 0 2rem;
-}
-.input-group-text {
-    background: #c0392b ;
-    color: white ;
-    border: 0 ;
-    border-radius: 0.25rem 0 0 0.25rem !important;
-}
+.input {
+  background: transparent;
+  font-size: 15px;
+  color: #fff;    
+  padding: 0 5px;
+  height: 45px;
+  border: none;
+  &:focus{
+      outline: none;
 
+  }
+  &::placeholder{
+      color: white;
+  }
+}
+.focus-input::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  transition: all 0.4s;
+
+  background: #fff;
+}
+.input:focus + .focus-input::before {
+  width: 100%;
+}
