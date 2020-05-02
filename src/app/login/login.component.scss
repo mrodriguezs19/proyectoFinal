@@ -74,14 +74,14 @@ a{
     }
     &:focus::placeholder{
         opacity: 0;
-  transform: translate(70%);
-  -webkit-transition: all 0.35s ease-in-out;
+  transform: translate(70%);  
   transition: all 0.35s ease-in-out;
         
     }
 
     &::placeholder{
-        color: white;
+        color: rgba(255, 255, 255, 0.582);
+
     }
   }
   .focus-input::before {
@@ -99,7 +99,7 @@ a{
   .input:focus + .focus-input::before {
     width: 100%;
   }
-  .has-val.input3 + .focus-input3::before {
+  .has-val.input + .focus-input::before {
     width: 100%;
   }
   
