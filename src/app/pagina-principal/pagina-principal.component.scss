@@ -102,9 +102,12 @@
     height: 400px;
     .carousel-item {
       height: 400px;
-      img {
+      
+      img{
         height: 100%;
         width: 100%;
+        filter:brightness(0.4);
+        
       }
     }
   }
@@ -127,4 +130,5 @@ anchors are inline so you need ot make them block to go full width
 .margen-container {
   margin-top: 50px;
 }
+
 

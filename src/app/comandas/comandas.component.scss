@@ -1,0 +1,64 @@
+.categorias,
+.especialidad {
+  width: 100%;
+  margin-top: 20px;
+  display: none;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  div {
+    background-color: #56ab2f;
+    padding: 20px;
+    border: none;
+    border-radius: 10%;
+    color: white;
+    cursor: pointer;
+    &:hover {
+      background-color: #59bd2a;
+    }
+  }
+  .comida,
+  .bebida {
+    display: none;
+  }
+}
+.productos {
+  p {
+    background-color: #56ab2f;
+    padding: 20px;
+    border: none;
+    border-radius: 10%;
+    color: white;
+    cursor: pointer;
+    &:hover {
+      background-color: #59bd2a;
+    }
+  }
+}
+
+.seleccionado {
+  background-color: black;
+}
+.mesas {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  cursor: pointer;
+  flex-wrap: wrap;
+  div {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid black;
+  }
+}
+.ocupada {
+  background-color: red;
+}
+.lleno {
+  background-color: green;
+}

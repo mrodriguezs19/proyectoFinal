@@ -12,14 +12,18 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router) { }
   
   ngOnInit() {
-    //Marcar en negrita la direccion elegida
-    if(this.router.url=='/funcionamiento'){
-      document.getElementById("funcionamiento").style.fontWeight = "bold";
-    }
-    else if(this.router.url=='/'){
-      document.getElementById("inicio").style.fontWeight = "bold";
+    
+  }
 
-    }
+  prueba(){
+//Marcar en negrita la direccion elegida
+if(this.router.url=='/funcionamiento'){
+  document.getElementById("funcionamiento").style.fontWeight = "bold";
+}
+else if(this.router.url=='/'){
+  document.getElementById("inicio").style.fontWeight = "bold";
+
+}
   }
 
 }

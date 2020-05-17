@@ -1,6 +1,6 @@
 
 .fondo{
-  height: 100vh;
+  
   background-image: url(../../assets/images/login/food-1932466_1920.jpg);
   background-repeat: no-repeat;
  background-size: cover;
@@ -100,4 +100,18 @@ transition: all 0.35s ease-in-out;}
 }
 .has-val.input + .focus-input::before {
   width: 100%;
+}
+
+.error{
+  margin-top: 0px;
+  padding: 0px;
+  font-size: 14px;
+  color: #721c24;
+  background-color:#f5c6cb;
+}
+.is-invalid{
+  border: 1px solid red;
+}
+form{
+  border: none!important;
 }

@@ -1,0 +1,32 @@
+.navbar-nav{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+  
+  .centrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .derecha {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .barra {
+    font-size: 16px;
+    justify-content: space-around;
+  }
+  .nav-link {
+    cursor: pointer;
+
+    &:hover {
+      color:  rgb(132, 255, 8)!important;
+    }
+  }
+  
+  li {
+    color: #000000;
+  }
+  *{
+  }

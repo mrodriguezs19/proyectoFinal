@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { RouterModule, Routes } from "@angular/router";
 import {  ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http'; 
+
 
 //Componentes
 import { AppComponent } from "./app.component";
@@ -13,14 +15,53 @@ import { FuncionamientoComponent } from './funcionamiento/funcionamiento.compone
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { PanelusuarioComponent } from './panelusuario/panelusuario.component';
+import { NavbarUsuarioComponent } from './navbar-usuario/navbar-usuario.component';
+import { ComandasComponent } from './comandas/comandas.component';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { CocinaComponent } from './cocina/cocina.component';
 
 
 
 const appRoutes: Routes = [
-  { path: "", component: PaginaPrincipalComponent },
-  { path: "funcionamiento", component: FuncionamientoComponent},
+  { path: "", component: NavbarComponent ,
+  children: [
+    {
+      path: '', 
+      component:PaginaPrincipalComponent 
+    },
+    {
+      path: 'funcionamiento', 
+      component:FuncionamientoComponent 
+    },
+
+  ]
+  },
+  
   { path: "registro", component: RegistroComponent},
   { path: "login", component: LoginComponent},
+  { path: "panel", component: NavbarUsuarioComponent,
+  children: [
+    {
+      path:'',
+      component:InicioComponent
+    },
+   
+    {
+      path: 'comandas', 
+      component:ComandasComponent 
+    },
+    {
+      path: 'empleados', 
+      component:EmpleadosComponent 
+    },
+    {
+      path: 'cocina', 
+      component:CocinaComponent 
+    },
+
+  ]},
   { path: "**", component: NoEncontradoComponent }
 ];
 @NgModule({
@@ -32,9 +73,15 @@ const appRoutes: Routes = [
     FuncionamientoComponent,
     LoginComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    PanelusuarioComponent,
+    NavbarUsuarioComponent,
+    ComandasComponent,
+    EmpleadosComponent,
+    InicioComponent,
+    CocinaComponent
   ],
-  imports: [BrowserModule, AppRoutingModule,
+  imports: [BrowserModule, AppRoutingModule,HttpClientModule,
     ReactiveFormsModule,RouterModule.forRoot(appRoutes)],
   providers: [],
   bootstrap: [AppComponent]

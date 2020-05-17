@@ -5,7 +5,7 @@
         <h2>REGÍSTRATE</h2>
       </div>
       <div class="d-flex justify-content-center form_container">
-        <form  [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="wrap-input">
             <input
               class="input"
@@ -14,8 +14,30 @@
               formControlName="usuario"
               id="usuario"
               (blur)="linea('usuario')"
+              maxlength="15"
             />
             <span class="focus-input"></span>
+          </div>
+
+          <div
+            class="error"
+            *ngIf="usuario.invalid && (usuario.dirty || usuario.touched)"
+          >
+            <div *ngIf="usuario.errors.required">
+              Usuario obligatorio
+            </div>
+            <div
+              *ngIf="
+                usuario.invalid &&
+                (usuario.dirty || usuario.touched) &&
+                usuario.errors.pattern
+              "
+            >
+              Usuario no válido
+            </div>
+            <div *ngIf="usuario.errors.minlength">
+              Tamaño mínimo de 5
+            </div>
           </div>
           <div class="wrap-input">
             <input
@@ -29,6 +51,7 @@
             />
             <span class="focus-input"></span>
           </div>
+
           <div class="wrap-input">
             <input
               class="input"
@@ -41,7 +64,25 @@
             />
             <span class="focus-input"></span>
           </div>
-          
+
+          <div
+            class="error"
+            *ngIf="correo.invalid && (correo.dirty || correo.touched)"
+          >
+            <div *ngIf="correo.errors.required">
+              Correo obligatorio
+            </div>
+            <div
+              *ngIf="
+                correo.invalid &&
+                (correo.dirty || correo.touched) &&
+                correo.errors.pattern
+              "
+            >
+              Correo no válido
+            </div>
+          </div>
+
           <div class="wrap-input">
             <input
               class="input"
@@ -54,6 +95,16 @@
             />
             <span class="focus-input"></span>
           </div>
+
+          <div class="error" *ngIf="password1.invalid && (password1.dirty || password1.touched)">
+            <div *ngIf="password1.errors.required">
+              Contraseña obligatorio
+            </div>
+            <div *ngIf=" password1.invalid && (password1.dirty || password1.touched) && password1.errors.pattern">
+              No segura, minimo 6 caracacteras y al menos 1 minúscula , una mayúscula y un número sin espacios.
+            </div>            
+          </div>
+
           <div class="wrap-input">
             <input
               class="input"
@@ -66,7 +117,6 @@
             />
             <span class="focus-input"></span>
           </div>
-
           <div class="form-group">
             <div class="custom-control custom-checkbox">
               <input
@@ -81,7 +131,7 @@
           </div>
           <div class="d-flex justify-content-center mt-3 login_container">
             <button type="submit" name="button" class="btn login_btn">
-              Iniciar sesión
+              Regístrate
             </button>
           </div>
         </form>

@@ -32,5 +32,18 @@ hr{
     p{
         margin-top: 10px;
     }
+    button{
+        margin-top:30px;
+        width:100%;
+        background-color: white;
+        color: rgb(47, 47, 47);
+        border: none;
+        &:hover{
+            transition: all 0.5s;
+            color: white;
+            background:linear-gradient( 45deg, #a8e063,#56ab2f);
+      
+        }
+    }
     
 }

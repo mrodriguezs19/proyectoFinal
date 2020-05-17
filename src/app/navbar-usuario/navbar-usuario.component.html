@@ -1,0 +1,41 @@
+<div class="container-fluid bg-white sticky-top">
+    <nav class=" container navbar navbar-expand-sm">
+      
+      <button
+        class="navbar-toggler collapsed"        
+        data-toggle="collapse"
+        data-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav">
+          <li class="nav-item" routerLink="/panel" routerLinkActive="active">
+            <a class="nav-link" id="inicio">Inicio</a>
+          </li>
+          <li class="nav-item" routerLink="comandas" routerLinkActive="active">
+            <a class="nav-link" id="inicio">Comandas</a>
+          </li>
+          <li
+            class="nav-item"
+            routerLink="empleados"
+            routerLinkActive="active"
+          >
+            <a class="nav-link" id="funcionamiento">Empleados</a>
+          </li>
+          <li class="nav-item" routerLink="cocina" routerLinkActive="active">
+            <a class="nav-link">Cocina</a>
+          </li>
+          <li class="nav-item" routerLink="/login" routerLinkActive="active">
+            <a class="nav-link" >Entrar</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    </div>
+<router-outlet></router-outlet>

@@ -1,0 +1,47 @@
+<div class="container mt-4">
+  <h2>Empleados</h2>
+  <hr />
+  <h3>Camareros</h3>
+  <table style="width: 100%;">
+    <tr>
+      <th>Dni</th>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Sueldo</th>
+      <th>Dar de baja</th>
+      
+    </tr>
+    <tr *ngFor="let empleado of empleados">
+      <ng-container *ngIf="empleado.puesto === 'camarero'">
+        <td>{{ empleado.dni }}</td>
+        <td>{{ empleado.nombre_completo }}</td>
+        <td>{{ empleado.correo }}</td>
+        <td>{{ empleado.sueldo }}</td>
+        <td class="boton">
+            <button (click)=eliminar(empleado.id)>X</button>
+        </td>
+      </ng-container>
+    </tr>
+  </table>
+  <hr />
+  <h3>Cocineros</h3>
+  <table>
+    <tr>
+        <th>Dni</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Sueldo</th>
+    </tr>
+    <tr *ngFor="let empleado of empleados">
+      <ng-container *ngIf="empleado.puesto === 'cocinero'">
+        <td>{{ empleado.dni }}</td>
+        <td>{{ empleado.nombre_completo }}</td>
+        <td>{{ empleado.correo }}</td>
+        <td>{{ empleado.sueldo }}</td>
+        <td class="boton">
+            <button (click)=eliminar(empleado.id)>X</button>
+        </td>
+      </ng-container>
+    </tr>
+  </table>
+</div>

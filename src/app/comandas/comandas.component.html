@@ -1,0 +1,42 @@
+<div class="container">
+<div class="mesas" id="mesas">
+  <div
+    *ngFor="let mesa of mesas; let i = index"
+    (click)="seleccionarMesa(mesa.id)"
+    id="{{ mesa.id }}"
+    [ngClass]="{'ocupada':mesa.estado==='vacio','lleno':mesa.estado==='lleno'}"
+    
+  >
+    <p>Mesa {{ i + 1 }}</p>
+  </div>
+</div>
+
+<div class="categorias" id="categorias">
+  <div id="tapa" (click)="categoria($event)">Tapas</div>
+  <div id="racion" (click)="categoria($event)">Raciones</div>
+  <div id="entrante" (click)="categoria($event)">Entrantes</div>
+  <div id="bebida" (click)="categoria($event)">Bebidas</div>
+  <div id="postre" (click)="categoria($event)">Postres</div>
+</div>
+<hr />
+<div class="especialidad" id="especialidad">
+  <div id="carne" class="comida" (click)="contenido($event)">Carne</div>
+  <div id="pescado" class="comida" (click)="contenido($event)">Pescado</div>
+  <div id="vegetariano"  class="comida" (click)="contenido($event)">Vegetariano</div>
+  <div id="alcohol"  class="bebida" (click)="contenido($event)">Alcohol</div>
+  <div id="sinalcohol"  class="bebida" (click)="contenido($event)">Sin Alcohol</div>
+
+</div>
+<hr />
+
+
+<div id="productos" class="productos">
+  <div *ngFor="let producto of productos">
+      <div *ngIf="producto.tipo === this.tipo && producto.especialidad === this.especialidad ">
+        <p (click)=generarProductoPedido($event)>{{ producto.nombre}}</p>
+      </div>
+ 
+  </div>
+</div>
+<button (click)="prueba()">Probar</button>
+</div>
