@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { ServicioAdministradoresService } from "../servicio-administradores.service";
-import { Administrador } from "../administrador";
+import { ServicioAdministradoresService } from "../servicios/servicio-administradores.service";
+import { Administrador } from "../interfaces/administrador";
 
 @Component({
   selector: "app-registro",
@@ -10,14 +10,17 @@ import { Administrador } from "../administrador";
 })
 export class RegistroComponent implements OnInit {
   correoPattern: any = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
- 
-  usuarioPattern: any =/^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/;
-  contrasenaPattern:any=/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
-  
-
-
-  administrador:Administrador={id:0,usuario:'',nombre_completo:'',correo:'',contrasena:'',created_at:new Date,updated_at: new Date};
-  
+  usuarioPattern: any = /^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$/;
+  contrasenaPattern: any = /^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/;
+  administrador: Administrador = {
+    id: 0,
+    usuario: "",
+    nombre_completo: "",
+    correo: "",
+    contrasena: "",
+    created_at: new Date(),
+    updated_at: new Date(),
+  };
   form = new FormGroup({
     usuario: new FormControl("", [
       Validators.required,
@@ -29,7 +32,7 @@ export class RegistroComponent implements OnInit {
       Validators.required,
       Validators.pattern(this.correoPattern),
     ]),
-    password1: new FormControl("",[
+    password1: new FormControl("", [
       Validators.required,
       Validators.pattern(this.contrasenaPattern),
     ]),
@@ -38,7 +41,6 @@ export class RegistroComponent implements OnInit {
 
   // CREAR VALIDADOR CUSTOMIZADO PARA COMFIRMAR CONTRASEÑA
 
-  
   constructor(private servicioAdministrador: ServicioAdministradoresService) {}
   ngOnInit(): void {}
 
@@ -66,19 +68,19 @@ export class RegistroComponent implements OnInit {
   get password2() {
     return this.form.get("password2");
   }
-  onSubmit(){
-    this.administrador.usuario=this.form.get("usuario").value;
-    this.administrador.nombre_completo=this.form.get("nombre").value;
-    this.administrador.correo=this.form.get("correo").value;
-    this.administrador.contrasena=this.form.get("password1").value;
-    
+  onSubmit() {
+    this.administrador.usuario = this.form.get("usuario").value;
+    this.administrador.nombre_completo = this.form.get("nombre").value;
+    this.administrador.correo = this.form.get("correo").value;
+    this.administrador.contrasena = this.form.get("password1").value;
+
     console.log(this.administrador);
-    this.servicioAdministrador.introducirAdministrador(this.administrador)
-    .subscribe();
+    this.servicioAdministrador
+      .introducirAdministrador(this.administrador)
+      .subscribe();
   }
 
-  
- /* prueba() {
+  /* prueba() {
       this.servicioAdministrador.
       introducirAdministrador.(newAdministrador)
       .subscribe((hero) => this.adminis.push(hero));

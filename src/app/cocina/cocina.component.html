@@ -1,1 +1,24 @@
-<H1>COCINA</H1>
+
+<div class="container">
+<!--CAmbiar para que muestre solo de  comandas de empleados de este administrador-->
+<ng-container *ngFor="let mesa of mesas; let i = index">
+    <ng-container *ngFor="let cliente of clientes">
+  <div   *ngFor="let comanda of comandas">
+    <div class="comanda "
+      *ngIf=" cliente.id_mesa == mesa.id && comanda.id_cliente == cliente.id && comanda.enviado=='no'"
+    >
+        <h2>Comanda nº {{ comanda.id }} para la mesa {{ i + 1 }}</h2>
+      <ng-container *ngFor="let producto of productos">
+        <ng-container *ngFor="let producto_pedido of productos_pedidos">
+          <div *ngIf="producto_pedido.id_producto == producto.id && producto_pedido.id_comanda == comanda.id">
+            Producto {{ producto.nombre }}
+          </div>
+        </ng-container>
+      </ng-container>
+      <button (click)="preparado(comanda.id)"
+      id="{{ comanda.id }}">Enviada</button>
+    </div>
+  </div>
+</ng-container >
+</ng-container>
+</div>

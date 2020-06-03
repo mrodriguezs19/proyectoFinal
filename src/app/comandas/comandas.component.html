@@ -2,13 +2,41 @@
 <div class="mesas" id="mesas">
   <div
     *ngFor="let mesa of mesas; let i = index"
-    (click)="seleccionarMesa(mesa.id)"
+    (click)="seleccionarMesa(mesa.id , i)"
     id="{{ mesa.id }}"
-    [ngClass]="{'ocupada':mesa.estado==='vacio','lleno':mesa.estado==='lleno'}"
+    [ngClass]="{'libre':mesa.estado==='vacio','lleno':mesa.estado==='lleno'}"
     
   >
     <p>Mesa {{ i + 1 }}</p>
   </div>
+</div>
+
+<div id="panel_mesa" class="panel_mesa">
+  <h2>Mesa {{this.n_mesa}}</h2>
+  <br>
+  <ul>
+    <ng-container *ngFor="let comanda of comandas">
+      <ng-container *ngFor="let cliente of clientes">
+        <ng-container *ngIf="cliente.id_mesa==this.mesa && comanda.id_cliente==cliente.id && comanda.estado=='enproceso'">
+          <h3>Comanda nº{{comanda.id}} en proceso</h3>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let producto of productos">
+      <ng-container *ngFor="let producto_pedido of productos_pedidos">
+        <ng-container  *ngIf="producto_pedido.id_comanda==this.comanda.id && producto.id == producto_pedido.id_producto">
+          <li>Nombre : {{producto.nombre}} Cantidad : {{producto_pedido.cantidad}}</li>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ul>
+  <div class="botones">
+    <button (click)="crearComanda()">Añadir producto</button>
+    <button (click)="volverMesas()">Volver a mesas</button>
+    <button (click)="enviarComanda()">Enviar cocina</button>
+    <button (click)="pedirCuenta()">Pedir cuenta</button>
+  </div>
+  
 </div>
 
 <div class="categorias" id="categorias">
@@ -18,25 +46,29 @@
   <div id="bebida" (click)="categoria($event)">Bebidas</div>
   <div id="postre" (click)="categoria($event)">Postres</div>
 </div>
-<hr />
+
 <div class="especialidad" id="especialidad">
   <div id="carne" class="comida" (click)="contenido($event)">Carne</div>
   <div id="pescado" class="comida" (click)="contenido($event)">Pescado</div>
   <div id="vegetariano"  class="comida" (click)="contenido($event)">Vegetariano</div>
   <div id="alcohol"  class="bebida" (click)="contenido($event)">Alcohol</div>
   <div id="sinalcohol"  class="bebida" (click)="contenido($event)">Sin Alcohol</div>
+  <div id="dulce"  class="postre" (click)="contenido($event)">Dulce</div>
+  <div id="salado"  class="postre" (click)="contenido($event)">Salado</div>
 
 </div>
-<hr />
 
 
-<div id="productos" class="productos">
+
+<div id="productos"  class="productos">
   <div *ngFor="let producto of productos">
       <div *ngIf="producto.tipo === this.tipo && producto.especialidad === this.especialidad ">
-        <p (click)=generarProductoPedido($event)>{{ producto.nombre}}</p>
+        <p  (click)=generarProductoPedido($event) id="{{ producto.id }}">{{ producto.nombre}}</p>
       </div>
  
   </div>
 </div>
-<button (click)="prueba()">Probar</button>
+
+<button (click)="volverMesas()">Volver a mesas</button>
+
 </div>

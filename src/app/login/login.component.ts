@@ -13,7 +13,10 @@ export class LoginComponent implements OnInit {
   });
   constructor() {}
   ngOnInit() {}
-  onSubmit() {}
+  onSubmit() {
+    
+
+  }
 
   linea(id) {
     let elem: HTMLElement = document.getElementById(id);

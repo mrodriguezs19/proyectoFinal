@@ -1,0 +1,215 @@
+<div class="container mt-4">
+  <h2>Productos</h2>
+<button (click)="mostrar()">
+  PRUEBA
+</button>
+<div *ngIf="prueba">
+  FUNSIONA {{prueba}}
+</div>
+<!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog " role="document">
+      <div class="modal-content formulario">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Alta Producto
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    id="formulario"
+   
+  >
+    <tr>
+      <td>Nombre</td>
+      <td>
+        <input type="text" formControlName="nombre" />
+      </td>
+      
+    </tr>
+    <tr>
+      <div
+        class="error"
+        *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+      >
+        <div *ngIf="nombre.errors.required">
+          Nombre obligatorio
+        </div>
+      </div>
+    </tr>
+    <tr>
+      <td>Tipo</td>
+      <td>
+        <select
+          name=""
+          id=""
+          formControlName="tipo"
+          (click)="elegirTipo($event)"
+        >
+          <option disabled selected value> -- Elige una opción -- </option>
+
+          <option id="prueba" value="racion">Racion</option>
+          <option value="tapa">Tapa</option>
+          <option value="entrante">Entrante</option>
+          <option value="bebida">Bebida</option>
+          <option value="postre">Postre</option>
+        </select>
+      </td>
+      
+    </tr>
+    <tr>
+      <div class="error" *ngIf="tipo.invalid && (tipo.dirty || tipo.touched)">
+        <div *ngIf="tipo.errors.required">
+          Tipo obligatorio
+        </div>
+      </div>
+    </tr>
+    <tr >
+      <td>Especialidad</td>
+      <td>
+        <select name="" id="" formControlName="especialidad">
+          <option disabled selected value> -- Elige una opción -- </option>
+
+          <ng-container
+            *ngIf="
+              especialidades == 1 || especialidades == 2 || especialidades == 3
+            "
+          >
+            <option value="carne">Carne</option>
+            <option value="pescado">Pescado</option>
+            <option value="vegetariano">Vegetariano</option>
+          </ng-container>
+          <ng-container *ngIf="especialidades == 4">
+            <option value="alcohol">Con alcohol</option>
+            <option value="sinalcohol">Sin alcohol</option>
+          </ng-container>
+          <ng-container *ngIf="especialidades == 5">
+            <option value="dulce">Dulce</option>
+            <option value="salado">Salado</option>
+          </ng-container>
+        </select>
+      </td>
+     
+    </tr>
+    <tr>
+      <div
+        class="error"
+        *ngIf="
+          especialidad.invalid && (especialidad.dirty || especialidad.touched)
+        "
+      >
+        <div *ngIf="especialidad.errors.required">
+          Especialidad obligatorio
+        </div>
+      </div>
+    </tr>
+    <tr>
+      <td>Precio</td>
+      <td>
+        <input type="number" step="0.01" formControlName="precio" />
+      </td>
+     
+    </tr>
+    <tr>
+      <div class="error" *ngIf="precio.invalid && (precio.dirty || precio.touched)">
+        <div *ngIf="precio.errors.required">
+          Precio obligatorio
+        </div>
+      </div>
+    </tr>
+    <tr class="centrar">
+    <button type="submit" [disabled]="!form.valid">
+      Dar de alta
+    </button>
+  </tr>
+  </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <hr />
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      name="filtroProducto"
+      maxlength="9"
+      placeholder="Buscar por nombre..."
+      [(ngModel)]="filtroProducto"
+    />
+  </div>
+  <button
+  type="button"
+  class="btn abrirform"
+  data-toggle="modal"
+  data-target="#exampleModal"
+>
+  PRODUCTO
+</button>
+  <div  class="scroll">
+  <table>
+    <tr>
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Especialidad</th>
+      <th>Precio</th>
+      <th>Editar</th>
+      <th>Eliminar</th>
+    </tr>
+    <tr
+      class="productos"
+      *ngFor="
+        let producto of productos
+          | filtroProductos: filtroProducto
+          | paginate: { itemsPerPage: 5, currentPage: pageActual };
+        index as i
+      "
+    >
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ producto.nombre }}</td>
+      <td>{{ producto.tipo }}</td>
+      <td>{{ producto.especialidad }}</td>
+      <td>{{ producto.precio }}</td>
+      <td>
+        <button
+          class="btn btn-success btn-sm rounded-0"
+          type="button"
+          title="Edit"
+        >
+          <i class="fa fa-edit"></i>
+        </button>
+      </td>
+      <td class="boton">
+        <button
+          class="btn btn-danger btn-sm rounded-0"
+          type="button"
+          (click)="eliminar(producto.id)"
+        >
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </table>
+  </div>
+  <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+</div>

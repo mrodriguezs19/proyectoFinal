@@ -1,0 +1,7 @@
+{
+    "/api/*":{
+        "target":"http://pi.diiesmurgi.org/~miguel/public/api",
+        "secure":false,
+        "logLevel":"debug"
+    }
+}

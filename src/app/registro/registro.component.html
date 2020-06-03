@@ -101,7 +101,7 @@
               Contraseña obligatorio
             </div>
             <div *ngIf=" password1.invalid && (password1.dirty || password1.touched) && password1.errors.pattern">
-              No segura, minimo 6 caracacteras y al menos 1 minúscula , una mayúscula y un número sin espacios.
+              No segura, mínimo 6 caracteres y al menos 1 minúscula , una mayúscula y un número sin espacios.
             </div>            
           </div>
 
@@ -130,7 +130,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3 login_container">
-            <button type="submit" name="button" class="btn login_btn">
+            <button type="submit" name="button" class="btn login_btn" [disabled]="!form.valid">
               Regístrate
             </button>
           </div>

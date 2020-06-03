@@ -9,7 +9,8 @@
   padding: 10px;
 
   .login_btn {
-    width: 200px;
+    
+    
     background-color: white;
     color: rgb(47, 47, 47);
     border: none;
@@ -19,12 +20,13 @@
       background: linear-gradient(45deg, #a8e063, #56ab2f);
     }
   }
-  td {
-    width: 33%;
-    border: none;
+  
+  tr{
+    display: flex;
+    justify-content: space-between;
   }
-}
 
+}
 table {
   width: 100%;
 }
@@ -32,7 +34,7 @@ td,
 th {
   padding: 20px;
 }
-.empleados:nth-of-type(2n) {
+.productos:nth-of-type(2n) {
   background-color: #a8e063;
 }
 .boton {
@@ -40,16 +42,10 @@ th {
   justify-content: center;
   align-items: center;
   border: none;
-  width: 100%;
 }
-.abrirform {
-  color: white;
-  background:  #56ab2f;
-  &:hover {
-    transition: all 0.5s;
-    
-    background: #a8e063;
-  }
+.centrar{
+  display: flex;
+  justify-content: center!important;
 }
 pagination-controls {
   margin: 20px;
@@ -61,7 +57,16 @@ pagination-controls {
   color: #721c24;
   background-color: #f5c6cb;
 }
-.scroll{
-  margin-top: 10px;
+.scroll {
   overflow-x: scroll;
+  margin-top: 10px;
+}
+.abrirform {
+  color: white;
+  background:  #56ab2f;
+  &:hover {
+    transition: all 0.5s;
+    
+    background: #a8e063;
+  }
 }

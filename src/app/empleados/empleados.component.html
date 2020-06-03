@@ -1,47 +1,261 @@
 <div class="container mt-4">
   <h2>Empleados</h2>
+ 
+
   <hr />
-  <h3>Camareros</h3>
-  <table style="width: 100%;">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      name="filtroEmpleado"
+      maxlength="9"
+      placeholder="Buscar por DNI..."
+      [(ngModel)]="filtroEmpleado"
+    />
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-lg abrirform"
+    data-toggle="modal"
+    data-target="#exampleModal"
+  >
+    Dar alta a Empleado
+  </button>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog " role="document">
+      <div class="modal-content formulario">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Alta Empleado
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form 
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    id="formulario"
+    
+    
+  >
+  
+    <table>
+      <tr>
+        <td>Dni</td>
+        <td>
+          <input type="text" formControlName="dni" maxlength="9" />
+        </td>
+        
+      </tr>
+      <tr>
+        <div class="error" *ngIf="dni.invalid && (dni.dirty || dni.touched)">
+          <div *ngIf="dni.errors.required">
+            Dni obligatorio
+          </div>
+          <div
+            *ngIf="
+              dni.invalid && (dni.dirty || dni.touched) && dni.errors.pattern
+            "
+          >
+            Dni no válido
+          </div>
+        </div>
+      </tr>
+      <tr>
+        <td>Nombre</td>
+        <td>
+          <input type="text" formControlName="nombre" />
+        </td>
+        
+      </tr>
+      <tr>
+        <div
+          class="error"
+          *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+        >
+          <div *ngIf="nombre.errors.required">
+            Nombre obligatorio
+          </div>
+          <div
+            *ngIf="
+              nombre.invalid &&
+              (nombre.dirty || nombre.touched) &&
+              nombre.errors.pattern
+            "
+          >
+            Nombre no válido
+          </div>
+        </div>
+      </tr>
+      <tr>
+        <td>Correo</td>
+        <td>
+          <input type="text" formControlName="correo" />
+        </td>
+        
+      </tr>
+      <tr>
+        <div
+          class="error"
+          *ngIf="correo.invalid && (correo.dirty || correo.touched)"
+        >
+          <div *ngIf="correo.errors.required">
+            Correo obligatorio
+          </div>
+          <div
+            *ngIf="
+              correo.invalid &&
+              (correo.dirty || correo.touched) &&
+              correo.errors.pattern
+            "
+          >
+            Correo no válido
+          </div>
+        </div>
+      </tr>
+      <tr>
+        <td>Puesto</td>
+        <td>
+          <select formControlName="puesto">
+            <option disabled selected value> -- Elige una opción -- </option>
+            <option value="camarero">Camarero</option>
+            <option value="cocinero">Cocinero</option>
+          </select>
+        </td>
+        
+      </tr>
+      <tr>
+        <div
+          class="error"
+          *ngIf="puesto.invalid && (puesto.dirty || puesto.touched)"
+        >
+          <div *ngIf="puesto.errors.required">
+            Puesto obligatorio
+          </div>
+        </div>
+      </tr>
+      <tr>
+        <td>Sueldo</td>
+        <td>
+          <input type="number" formControlName="sueldo" />
+        </td>
+      </tr>
+      <tr>
+        <div
+          class="error"
+          *ngIf="sueldo.invalid && (sueldo.dirty || sueldo.touched)"
+        >
+          <div *ngIf="sueldo.errors.required">
+            Sueldo obligatorio
+          </div>
+        </div>
+      </tr>
+      <tr>
+        <td>Contraseña</td>
+        <td>
+          <input type="password" formControlName="password" />
+        </td>
+        
+      </tr>
+      <tr>
+        <div
+          class="error"
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+        >
+          <div *ngIf="password.errors.required">
+            Contraseña obligatorio
+          </div>
+          <div
+            *ngIf="
+              password.invalid &&
+              (password.dirty || password.touched) &&
+              password.errors.pattern
+            "
+          >
+            No segura, mínimo 6 caracteres y al menos 1 minúscula , una
+            mayúscula y un número sin espacios.
+          </div>
+        </div>
+      </tr>
+    </table>
+    <div class="boton">
+
+    <button type="submit" class="btn btn-outline-dark btn-lg login_btn " [disabled]="!form.valid">
+      Dar de alta
+    </button>
+  </div>
+  </form>
+           
+         
+          <!-- /form -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin modal-->
+<div  class="scroll">
+  <table >
     <tr>
+      <th>#</th>
       <th>Dni</th>
       <th>Nombre</th>
+      <th>Puesto</th>
       <th>Correo</th>
       <th>Sueldo</th>
+      <th>Editar</th>
       <th>Dar de baja</th>
-      
     </tr>
-    <tr *ngFor="let empleado of empleados">
-      <ng-container *ngIf="empleado.puesto === 'camarero'">
-        <td>{{ empleado.dni }}</td>
-        <td>{{ empleado.nombre_completo }}</td>
-        <td>{{ empleado.correo }}</td>
-        <td>{{ empleado.sueldo }}</td>
-        <td class="boton">
-            <button (click)=eliminar(empleado.id)>X</button>
-        </td>
-      </ng-container>
+    <tr
+      class="empleados"
+      *ngFor="
+        let empleado of empleados
+          | filtro: filtroEmpleado
+          | paginate: { itemsPerPage: 5, currentPage: pageActual };
+        index as i
+      "
+    >
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ empleado.dni }}</td>
+      <td>{{ empleado.nombre_completo }}</td>
+      <td>{{ empleado.puesto }}</td>
+      <td>{{ empleado.correo }}</td>
+      <td>{{ empleado.sueldo }} €</td>
+      <td>
+        <button
+          class="btn btn-success btn-sm rounded-0"
+          type="button"
+          title="Edit"
+        >
+          <i class="fa fa-edit"></i>
+        </button>
+      </td>
+      <td>
+        <button
+          class="btn btn-danger btn-sm rounded-0"
+          type="button"
+          (click)="eliminar(empleado.id)"
+        >
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
     </tr>
   </table>
-  <hr />
-  <h3>Cocineros</h3>
-  <table>
-    <tr>
-        <th>Dni</th>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Sueldo</th>
-    </tr>
-    <tr *ngFor="let empleado of empleados">
-      <ng-container *ngIf="empleado.puesto === 'cocinero'">
-        <td>{{ empleado.dni }}</td>
-        <td>{{ empleado.nombre_completo }}</td>
-        <td>{{ empleado.correo }}</td>
-        <td>{{ empleado.sueldo }}</td>
-        <td class="boton">
-            <button (click)=eliminar(empleado.id)>X</button>
-        </td>
-      </ng-container>
-    </tr>
-  </table>
+</div>
+  <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
 </div>
