@@ -56,6 +56,52 @@
 .seleccionado {
   background-color: black;
 }
+.nuevamesa {
+  margin-bottom: auto;
+  background: linear-gradient(45deg, #56ab2f, #a8e063);
+  color: white;
+  position: relative;
+  
+  padding: 10px;
+  form{
+  p{
+    font-weight: bold;
+  }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+  }
+  input{
+    margin-bottom: 20px;
+  }
+  .login_btn {
+    width: 200px;
+    background-color: white;
+    color: rgb(47, 47, 47);
+    border: none;
+    &:hover {
+      transition: all 0.5s;
+      color: white;
+      background: linear-gradient(45deg, #a8e063, #56ab2f);
+    }
+  }
+}
+
+.btn_nuevamesa {
+  color: white;
+  background:  #56ab2f;
+  &:hover {
+    transition: all 0.5s;
+    
+    background: #a8e063;
+  }
+}
+.botones_mesas{
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
 .mesas {
   width: 100%;
   margin-top: 20px;

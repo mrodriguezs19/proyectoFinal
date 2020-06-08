@@ -1,74 +1,154 @@
 <div class="container">
-<div class="mesas" id="mesas">
-  <div
-    *ngFor="let mesa of mesas; let i = index"
-    (click)="seleccionarMesa(mesa.id , i)"
-    id="{{ mesa.id }}"
-    [ngClass]="{'libre':mesa.estado==='vacio','lleno':mesa.estado==='lleno'}"
+  <div id="mesas">
+  <div class="mesas" >
+    <div
+      *ngFor="let mesa of mesas; let i = index"
+      (click)="seleccionarMesa(mesa.id, i)"
+      id="{{ mesa.id }}"
+      [ngClass]="{
+        libre: mesa.estado === 'vacio',
+        lleno: mesa.estado === 'lleno'
+      }"
+    >
+      <p>Mesa {{ i + 1 }}</p>
+    </div>
+
+    <!--Formulario para añadir mesas , los camareros tambien podrán para facilitar el proceso-->
     
+  </div>
+  <div class="botones_mesas">
+  <button
+      type="button"
+      class="btn btn_nuevamesa"
+      data-toggle="modal"
+      data-target="#exampleModal"
+    >
+      Añadir mesa
+    </button>
+    <button>Eliminar mesa</button>
+  </div>
+</div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
   >
-    <p>Mesa {{ i + 1 }}</p>
-  </div>
-</div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content nuevamesa">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Nueva mesa
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" id="formulario">
+            <p>Nº Sillas</p>
+            <input type="number" formControlName="sillas" />
+            <div
+              class="error"
+              *ngIf="sillas.invalid && (sillas.dirty || sillas.touched)"
+            >
+              <div *ngIf="sillas.errors.required">
+                Se necesita incluir un número
+              </div>
+            </div>
 
-<div id="panel_mesa" class="panel_mesa">
-  <h2>Mesa {{this.n_mesa}}</h2>
-  <br>
-  <ul>
-    <ng-container *ngFor="let comanda of comandas">
-      <ng-container *ngFor="let cliente of clientes">
-        <ng-container *ngIf="cliente.id_mesa==this.mesa && comanda.id_cliente==cliente.id && comanda.estado=='enproceso'">
-          <h3>Comanda nº{{comanda.id}} en proceso</h3>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-    <ng-container *ngFor="let producto of productos">
-      <ng-container *ngFor="let producto_pedido of productos_pedidos">
-        <ng-container  *ngIf="producto_pedido.id_comanda==this.comanda.id && producto.id == producto_pedido.id_producto">
-          <li>Nombre : {{producto.nombre}} Cantidad : {{producto_pedido.cantidad}}</li>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-  </ul>
-  <div class="botones">
-    <button (click)="crearComanda()">Añadir producto</button>
-    <button (click)="volverMesas()">Volver a mesas</button>
-    <button (click)="enviarComanda()">Enviar cocina</button>
-    <button (click)="pedirCuenta()">Pedir cuenta</button>
-  </div>
-  
-</div>
+            <div class="boton">
+              <button
+                type="submit"
+                class="btn btn-outline-dark btn-lg login_btn"
+                [disabled]="!form.valid"
+              >
+                Dar de alta
+              </button>
+            </div>
+          </form>
 
-<div class="categorias" id="categorias">
-  <div id="tapa" (click)="categoria($event)">Tapas</div>
-  <div id="racion" (click)="categoria($event)">Raciones</div>
-  <div id="entrante" (click)="categoria($event)">Entrantes</div>
-  <div id="bebida" (click)="categoria($event)">Bebidas</div>
-  <div id="postre" (click)="categoria($event)">Postres</div>
-</div>
-
-<div class="especialidad" id="especialidad">
-  <div id="carne" class="comida" (click)="contenido($event)">Carne</div>
-  <div id="pescado" class="comida" (click)="contenido($event)">Pescado</div>
-  <div id="vegetariano"  class="comida" (click)="contenido($event)">Vegetariano</div>
-  <div id="alcohol"  class="bebida" (click)="contenido($event)">Alcohol</div>
-  <div id="sinalcohol"  class="bebida" (click)="contenido($event)">Sin Alcohol</div>
-  <div id="dulce"  class="postre" (click)="contenido($event)">Dulce</div>
-  <div id="salado"  class="postre" (click)="contenido($event)">Salado</div>
-
-</div>
-
-
-
-<div id="productos"  class="productos">
-  <div *ngFor="let producto of productos">
-      <div *ngIf="producto.tipo === this.tipo && producto.especialidad === this.especialidad ">
-        <p  (click)=generarProductoPedido($event) id="{{ producto.id }}">{{ producto.nombre}}</p>
+          <!-- /form -->
+        </div>
       </div>
- 
+    </div>
   </div>
-</div>
 
-<button (click)="volverMesas()">Volver a mesas</button>
+  <div id="panel_mesa" class="panel_mesa">
+    <h2>Mesa {{ this.n_mesa }}</h2>
+    <br />
+    <ul>
+      <div *ngIf="this.comanda.id == 0">
+        Procesando comanda
+      </div>
+      <div *ngIf="this.comanda.id != 0">
+        Comanda en proceso {{ this.comanda.id }}
+      </div>
+      <ng-container *ngFor="let producto of productos">
+        <ng-container *ngFor="let producto_pedido of productos_pedidos">
+          <ng-container
+            *ngIf="
+              producto_pedido.id_comanda == this.comanda.id &&
+              producto.id == producto_pedido.id_producto
+            "
+          >
+            <li>
+              Nombre : {{ producto.nombre }} Cantidad :
+              {{ producto_pedido.cantidad }}
+            </li>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ul>
+    <div class="botones">
+      <button (click)="crearComanda()">Añadir producto</button>
+      <button (click)="volverMesas()">Volver a mesas</button>
+      <button (click)="enviarComanda()">Enviar cocina</button>
+      <button (click)="pedirCuenta()">Pedir cuenta</button>
+    </div>
+  </div>
 
+  <div class="categorias" id="categorias">
+    <div id="tapa" (click)="categoria($event)">Tapas</div>
+    <div id="racion" (click)="categoria($event)">Raciones</div>
+    <div id="entrante" (click)="categoria($event)">Entrantes</div>
+    <div id="bebida" (click)="categoria($event)">Bebidas</div>
+    <div id="postre" (click)="categoria($event)">Postres</div>
+  </div>
+
+  <div class="especialidad" id="especialidad">
+    <div id="carne" class="comida" (click)="contenido($event)">Carne</div>
+    <div id="pescado" class="comida" (click)="contenido($event)">Pescado</div>
+    <div id="vegetariano" class="comida" (click)="contenido($event)">
+      Vegetariano
+    </div>
+    <div id="alcohol" class="bebida" (click)="contenido($event)">Alcohol</div>
+    <div id="sinalcohol" class="bebida" (click)="contenido($event)">
+      Sin Alcohol
+    </div>
+    <div id="dulce" class="postre" (click)="contenido($event)">Dulce</div>
+    <div id="salado" class="postre" (click)="contenido($event)">Salado</div>
+  </div>
+
+  <div id="productos" class="productos">
+    <div *ngFor="let producto of productos">
+      <div
+        *ngIf="
+          producto.tipo === this.tipo &&
+          producto.especialidad === this.especialidad
+        "
+      >
+        <p (click)="generarProductoPedido($event)" id="{{producto.id}}">{{producto.nombre}}</p>
+      </div>
+    </div>
+  </div>
 </div>

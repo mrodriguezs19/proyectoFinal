@@ -8,7 +8,11 @@ import { catchError, retry } from "rxjs/operators";
 const httpOptions = {
   headers: new HttpHeaders({
     "Content-Type": "application/json",
-    Authorization: "my-auth-token",
+    Authorization:
+      "Basic " +
+      btoa(
+        localStorage.getItem("email") + ":" + localStorage.getItem("password")
+      ),
   }),
 };
 @Injectable({
@@ -19,7 +23,7 @@ export class ServicioComandasService {
 
   obtenerComandas() {
     return this.http
-      .get("http://pi.diiesmurgi.org/~miguel/public/api/comandas")
+      .get("http://pi.diiesmurgi.org/~miguel/public/api/comandas", httpOptions)
       .pipe(retry(3), catchError(this.handleError));
   }
   eliminarComandas(id: number): Observable<{}> {
@@ -28,14 +32,15 @@ export class ServicioComandasService {
       httpOptions
     );
   }
-  actualizarComanda(comanda: Comanda): Observable<Comanda> {
-    return this.http.put<Comanda>("http://pi.diiesmurgi.org/~miguel/public/api/comandas/"+comanda.id, comanda, httpOptions);
-      
+  actualizarComanda(comanda: Comanda) {
+    return this.http.put(
+      "http://pi.diiesmurgi.org/~miguel/public/api/comandas/" + comanda.id,
+      comanda,
+      httpOptions
+    );
   }
-  introducirComanda(
-    comanda: Comanda
-  ): Observable<Comanda> {
-    return this.http.post<Comanda>(
+  introducirComanda(comanda: Comanda){
+    return this.http.post(
       "http://pi.diiesmurgi.org/~miguel/public/api/comandas",
       comanda,
       httpOptions

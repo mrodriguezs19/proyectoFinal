@@ -8,7 +8,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -20,7 +20,7 @@ export class ServicioProductoPedidoService {
   constructor(private http: HttpClient) { }
 
   obtenerProductosPedidos(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/productopedidos")
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/productopedidos",httpOptions)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -33,11 +33,8 @@ export class ServicioProductoPedidoService {
     return this.http.post<ProductoPedido>("http://pi.diiesmurgi.org/~miguel/public/api/productopedidos",producto,httpOptions);
   }
   actualizarProductoPedido (producto: ProductoPedido): Observable<ProductoPedido> {
-    return this.http.put<ProductoPedido>("http://pi.diiesmurgi.org/~miguel/public/api/productopedidos", producto, httpOptions)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
-      );
+    return this.http.put<ProductoPedido>("http://pi.diiesmurgi.org/~miguel/public/api/productopedidos/"+producto.id, producto, httpOptions)
+      
   }
   
   

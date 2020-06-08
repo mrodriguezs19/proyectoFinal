@@ -4,6 +4,7 @@ import { Observable ,throwError } from "rxjs";
 import { HttpHeaders } from '@angular/common/http';
 import { Administrador } from "../interfaces/administrador";
 import { catchError, retry } from 'rxjs/operators';
+import { User } from "../interfaces/user";
 
 
 const httpOptions = {
@@ -21,8 +22,12 @@ export class ServicioAdministradoresService {
   introducirAdministrador(administrador:Administrador):Observable<Administrador> {
     return this.http.post<Administrador>("http://pi.diiesmurgi.org/~miguel/public/api/administradores",administrador,httpOptions);
   }
-  obtenerAdministradores(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/administradores")
+  introducirUsuario(user:User):Observable<User>{
+    return this.http.post<User>("http://pi.diiesmurgi.org/~miguel/public/api/users",user,httpOptions);
+
+  }
+  obtenerAdministradores(email,contrasena){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/administradores?filter=correo:"+email+",contrasena:"+contrasena)
     .pipe(
       retry(3),
       catchError(this.handleError)

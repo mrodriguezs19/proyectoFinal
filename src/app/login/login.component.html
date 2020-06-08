@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-center form_container">
           <form [formGroup]="form"  (ngSubmit)="onSubmit()">
              <div class="wrap-input">
-              <input class="input" type="text" name="name" placeholder="Username" id="name"  formControlName="name" (blur)="linea('name')">
+              <input class="input" type="text" name="email" placeholder="Email" id="email"  formControlName="email" (blur)="linea('email')">
               <span class="focus-input"></span>
             </div>
               <div class="wrap-input">
@@ -30,8 +30,8 @@
               </div>
             </div>
             <div class="d-flex justify-content-center mt-3 login_container">
-              <button type="submit" name="button" class="btn login_btn" routerLink="/panel"
-              routerLinkActive="active">
+              <button type="submit" name="button" class="btn login_btn"
+              >
                 Iniciar sesión
               </button>
             </div>

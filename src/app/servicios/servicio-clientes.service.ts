@@ -11,7 +11,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -22,7 +22,7 @@ export class ServicioClientesService {
   constructor(private http: HttpClient) { }
 
   obtenerClientes(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/clientes")
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/clientes",httpOptions)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -31,8 +31,8 @@ export class ServicioClientesService {
   eliminarCliente(id:number):Observable<{}>{
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/clientes/"+id,httpOptions);
   }
-  introducirCliente(Cliente:Cliente):Observable<Cliente> {
-    return this.http.post<Cliente>("http://pi.diiesmurgi.org/~miguel/public/api/clientes",Cliente,httpOptions);
+  introducirCliente(Cliente:Cliente){
+    return this.http.post("http://pi.diiesmurgi.org/~miguel/public/api/clientes",Cliente,httpOptions);
   }
 
   private handleError(error: HttpErrorResponse) {

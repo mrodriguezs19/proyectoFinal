@@ -57,7 +57,7 @@ export class EmpleadosComponent implements OnInit {
 
   //INICIO
   ngOnInit(): void {
-    this.servicioEmpleados.obtenerEmpleados().subscribe((response) => {
+    this.servicioEmpleados.obtenerEmpleados(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       console.log(response);
       this.empleados = (response as datosEmpleados).data;
     });
@@ -91,7 +91,8 @@ export class EmpleadosComponent implements OnInit {
     this.empleado.sueldo = this.form.get("sueldo").value;
     this.empleado.contrasena = this.form.get("password").value;
     //INSERTAR ID DEL ADM QUE TIENE LA SESION INICIADA
-    this.empleado.id_adm = 1551;
+    this.empleado.id_adm =Number(localStorage.getItem("id_adm"));
+    ;
     console.log(this.empleado);
     this.servicioEmpleados.introducirEmpleado(this.empleado).subscribe();
   }

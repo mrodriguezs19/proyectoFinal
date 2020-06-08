@@ -11,7 +11,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -21,8 +21,8 @@ export class ServicioEmpleadosService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerEmpleados(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/empleados")
+  obtenerEmpleados(id_adm){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/empleados?filter=id_adm:"+id_adm+",",httpOptions)
     .pipe(
       retry(3),
       catchError(this.handleError)

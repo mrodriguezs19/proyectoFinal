@@ -9,7 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    //'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -20,8 +20,8 @@ export class ServicioMesasService {
   
   constructor(private http: HttpClient) { }
 
-  obtenerMesas(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/mesas").pipe(
+  obtenerMesas(id_adm){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/mesas?filter=id_adm:"+id_adm+",",httpOptions).pipe(
       retry(3),
       catchError(this.handleError)
     );
@@ -35,7 +35,7 @@ export class ServicioMesasService {
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/mesas/"+id,httpOptions);
   }
   introducirMesa(mesa:Mesa):Observable<Mesa> {
-    return this.http.post<Mesa>("http://pi.diiesmurgi.org/~miguel/public/api/empleados",mesa,httpOptions);
+    return this.http.post<Mesa>("http://pi.diiesmurgi.org/~miguel/public/api/mesas",mesa,httpOptions);
   }
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

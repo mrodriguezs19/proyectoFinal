@@ -37,7 +37,7 @@ export class ProductosComponent implements OnInit {
 
   //INICIO
   ngOnInit(): void {
-    this.servicioProductos.obtenerProductos().subscribe((response) => {
+    this.servicioProductos.obtenerProductos(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       console.log(response);
       this.productos = (response as datosProductos).data;
     });
@@ -71,18 +71,20 @@ export class ProductosComponent implements OnInit {
     }
   }
   prueba: Producto;
+  numero:number;
   onSubmit() {
-    let conseguido=false;
     this.producto.nombre = this.form.get("nombre").value;
     this.producto.tipo = this.form.get("tipo").value;
     this.producto.especialidad=this.form.get("especialidad").value;
     this.producto.precio = this.form.get("precio").value;
-    this.producto.id_adm = 1551;
+    this.producto.id_adm = Number(localStorage.getItem("id_adm"));
     console.log(this.producto);
    this.servicioProductos.introducirProducto(this.producto).subscribe(
     (response) => {
       console.log(response);
       this.prueba = (response as Producto);
+      console.log("Añadido"+this.prueba.id);
+      this.numero=this.prueba[0];
     }
    );
   /*this.router.navigateByUrl("/productos",{skipLocationChange:true}).then(()=>{
@@ -91,7 +93,8 @@ export class ProductosComponent implements OnInit {
   })*/
   }
   mostrar() {
-    console.log(this.prueba);
+    console.log(this.prueba.id);
+    console.log(this.numero);
   }
   elegirTipo(event){
     console.log(event.target.options.selectedIndex);

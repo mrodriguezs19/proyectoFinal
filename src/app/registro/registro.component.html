@@ -105,30 +105,8 @@
             </div>            
           </div>
 
-          <div class="wrap-input">
-            <input
-              class="input"
-              type="password"
-              name="password"
-              placeholder="Repetir contraseña"
-              formControlName="password2"
-              id="password2"
-              (blur)="linea('password2')"
-            />
-            <span class="focus-input"></span>
-          </div>
-          <div class="form-group">
-            <div class="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                id="customControlInline"
-              />
-              <label class="custom-control-label" for="customControlInline"
-                >Recuérdame</label
-              >
-            </div>
-          </div>
+         
+          
           <div class="d-flex justify-content-center mt-3 login_container">
             <button type="submit" name="button" class="btn login_btn" [disabled]="!form.valid">
               Regístrate

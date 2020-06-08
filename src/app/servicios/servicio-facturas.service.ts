@@ -9,7 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -20,7 +20,7 @@ export class ServicioFacturasService {
   constructor(private http: HttpClient) { }
 
   obtenerFacturas(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/facturas")
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/facturas",httpOptions)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -29,8 +29,8 @@ export class ServicioFacturasService {
   eliminarFactura(id:number):Observable<{}>{
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/facturas/"+id,httpOptions);
   }
-  introducirFactura(factura:Factura):Observable<Factura> {    
-    return this.http.post<Factura>("http://pi.diiesmurgi.org/~miguel/public/api/facturas",factura,httpOptions);
+  introducirFactura(factura:Factura) {    
+    return this.http.post("http://pi.diiesmurgi.org/~miguel/public/api/facturas",factura,httpOptions);
   }
   
   

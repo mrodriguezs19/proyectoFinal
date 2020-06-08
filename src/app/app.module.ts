@@ -45,32 +45,33 @@ const appRoutes: Routes = [
     ],
   },
 
-  { path: "registro", component: RegistroComponent , canActivate: [AuthGuard]},
+  { path: "registro", component: RegistroComponent},
   { path: "login", component: LoginComponent },
   {
     path: "panel",
     component: NavbarUsuarioComponent,
+    
     children: [
       {
         path: "",
-        component: InicioComponent,
+        component: InicioComponent,canActivate: [AuthGuard]
       },
 
       {
         path: "comandas",
-        component: ComandasComponent,
+        component: ComandasComponent,canActivate: [AuthGuard]
       },
       {
         path: "empleados",
-        component: EmpleadosComponent,
+        component: EmpleadosComponent,canActivate: [AuthGuard]
       },
       {
         path: "cocina",
-        component: CocinaComponent,
+        component: CocinaComponent,canActivate: [AuthGuard]
       },
       {
         path: "productos",
-        component: ProductosComponent,
+        component: ProductosComponent,canActivate: [AuthGuard]
       },
     ],
   },

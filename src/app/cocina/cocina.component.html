@@ -11,9 +11,10 @@
       <ng-container *ngFor="let producto of productos">
         <ng-container *ngFor="let producto_pedido of productos_pedidos">
           <div *ngIf="producto_pedido.id_producto == producto.id && producto_pedido.id_comanda == comanda.id">
-            Producto {{ producto.nombre }}
+            Producto {{ producto.nombre }} {{producto_pedido.cantidad}}
           </div>
         </ng-container>
+
       </ng-container>
       <button (click)="preparado(comanda.id)"
       id="{{ comanda.id }}">Enviada</button>

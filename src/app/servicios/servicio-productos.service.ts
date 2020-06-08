@@ -9,7 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
+    'Authorization': 'Basic ' + btoa(localStorage.getItem("email")+":"+localStorage.getItem("password"))
   })
 };
 @Injectable({
@@ -19,8 +19,8 @@ export class ServicioProductosService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerProductos(){
-    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/productos")
+  obtenerProductos(id_adm){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/productos?filter=id_adm:"+id_adm+",",httpOptions)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -29,8 +29,8 @@ export class ServicioProductosService {
   eliminarProducto(id:number):Observable<{}>{
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/productos/"+id,httpOptions);
   }
-  introducirProducto(producto:Producto):Observable<Producto> {    
-    return this.http.post<Producto>("http://pi.diiesmurgi.org/~miguel/public/api/productos",producto,httpOptions);       
+  introducirProducto(producto:Producto){    
+    return this.http.post("http://pi.diiesmurgi.org/~miguel/public/api/productos",producto,httpOptions);       
   }
   
   

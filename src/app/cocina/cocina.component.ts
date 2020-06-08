@@ -36,10 +36,10 @@ export class CocinaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.servicioProductos.obtenerProductos().subscribe((response) => {
+    this.servicioProductos.obtenerProductos(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       this.productos = (response as datosProductos).data;
     });
-    this.servicioMesas.obtenerMesas().subscribe((response) => {
+    this.servicioMesas.obtenerMesas(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       this.mesas = (response as datosMesas).data;
     });
     this.servicioComandas.obtenerComandas().subscribe((response) => {

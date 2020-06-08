@@ -14,3 +14,4 @@ export interface datosAdministrador {
     anterior?: any;
     data: Administrador[];
 }
+

@@ -6,10 +6,10 @@ import { Mesa, datosMesas } from "../interfaces/mesa";
 import { ServicioProductoPedidoService } from "../servicios/servicio-producto-pedido.service";
 import { Comanda, datosComanda } from "../interfaces/comanda";
 import { ServicioComandasService } from "../servicios/servicio-comandas.service";
-import {
-  ProductoPedido,
-  datosProductoPedido,
+import {  ProductoPedido,  datosProductoPedido,
 } from "../interfaces/producto-pedido";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+
 import { Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { ServicioClientesService } from "../servicios/servicio-clientes.service";
@@ -24,6 +24,10 @@ import { ServicioFacturasService } from "../servicios/servicio-facturas.service"
 })
 export class ComandasComponent implements OnInit {
   //Variables
+  //Formulario mesas
+  form = new FormGroup({
+    sillas: new FormControl("", [Validators.required]),
+  });
   //Datos de la base de datos
   productos: Producto[];
   comandas: Comanda[];
@@ -32,6 +36,8 @@ export class ComandasComponent implements OnInit {
   facturas: Factura[];
   productos_pedidos: ProductoPedido[];
 
+  //Para comprobar que existe la comanda
+  comprobacion:Comanda;
   //Datos del producto pedido que se esta generando
   tipo: string;
   especialidad: string;
@@ -90,10 +96,10 @@ export class ComandasComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.servicioProductos.obtenerProductos().subscribe((response) => {
+    this.servicioProductos.obtenerProductos(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       this.productos = (response as datosProductos).data;
     });
-    this.servicioMesas.obtenerMesas().subscribe((response) => {
+    this.servicioMesas.obtenerMesas(Number(localStorage.getItem("id_adm"))).subscribe((response) => {
       this.mesas = (response as datosMesas).data;
     });
     this.servicioComandas.obtenerComandas().subscribe((response) => {
@@ -109,12 +115,13 @@ export class ComandasComponent implements OnInit {
       this.productos_pedidos = (response as datosProductoPedido).data;
     });
   }
-
+//Funcion formulario sillas
+get sillas() {
+  return this.form.get("sillas");
+}
   //SELECCIONAMOS MESA PARA ABRIR EL MENU DE GESTION DE ESTA MESA
   seleccionarMesa(id, i) {
-    //Ocultamos mesas y enseñamos mesas el panel de gestion.
-    document.getElementById("mesas").style.display = "none";
-    document.getElementById("panel_mesa").style.display = "flex"; 
+    
 
     this.mesa = id;
     this.n_mesa = i + 1;
@@ -130,31 +137,78 @@ export class ComandasComponent implements OnInit {
       ) { mesa.estado = "lleno";
 
         this.cliente.id_mesa=this.mesa;
-        this.servicioClientes.introducirCliente(this.cliente).subscribe();   
+       
         
         this.servicioMesas.actualizarMesa(mesa).subscribe();
-        //Creamos cliente en esta mesa*/
-        this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
+        //Incluimos nuevo cliente con su factura
+        this.servicioClientes.introducirCliente(this.cliente).subscribe(
+          (response) => {
+            console.log(response);
+            this.cliente = (response as Cliente);
+            console.log("Añadido"+this.cliente.id);
+            console.log("Ahora generamos la factura donde incluiremos las comandas");
+            this.factura.id_cliente=this.cliente.id;
+            this.servicioFacturas.introducirFactura(this.factura).subscribe(
+              (response) => {
+                console.log(response);
+                this.factura = (response as Factura);
+                console.log("Añadido"+this.factura.id+"del cliente"+this.cliente.id+"a esta mesa "+this.mesa);
+                //Recargamos
+         this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
           console.log(decodeURI(this.location.path()));
           this.router.navigate([decodeURI(this.location.path())]);
+              }
+            )
+          }
+        );
+        
         })
       }
       else{
-        this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
-          console.log(decodeURI(this.location.path()));
-          this.router.navigate([decodeURI(this.location.path())]);
-        })
+        
       }
     }
     else{ // Si esta llena
-// Si existe una comanda en proceso, this.comanda sera esta y si no , se creara una nueva añadiendole los datos necesarios.  
-      this.cliente = this.clientes.find(
-        (element) => element.id_mesa == this.mesa
-      );
+      //Ocultamos mesas y enseñamos mesas el panel de gestion.
+    document.getElementById("mesas").style.display = "none";
+    document.getElementById("panel_mesa").style.display = "flex"; 
+
+    // Si existe una comanda en proceso, this.comanda sera esta y si no , se creara una nueva añadiendole los datos necesarios.  
+     //Buscamos cliente sentado en esa mesa
+     this.cliente = this.clientes.find((element) => element.id_mesa == this.mesa);
+     console.log("Cliente" + this.cliente.id);  
       if(this.comandas.find(
         (element) => element.id_cliente == this.cliente.id && element.estado=="enproceso"
       )==undefined){
-        console.log("No existe una comanda en proceso para esta mesa, crear al añadir producto");
+        console.log("No existe una comanda en proceso para esta mesa, vamos a crearla");
+        //Creamos una nueva comanda
+
+        
+        //Buscamos factura de este cliente
+        this.factura = this.facturas.find(
+          (element) => element.id_cliente ==this.cliente.id
+        );
+        console.log("Factura" + this.factura.id);
+
+        //Añadimos datos de la comanda
+        this.comanda.id_cliente = this.cliente.id;
+        this.comanda.id_empleado =9470	;
+        this.comanda.id_factura=this.factura.id;
+        this.comanda.estado="enproceso";
+        this.comanda.enviado="no";
+        console.log("Empleado "+this.comanda.id_empleado);
+        console.log("Factura +"+this.comanda.id_factura);
+        console.log("Cliente +"+this.comanda.id_cliente);
+        console.log("Estado +"+this.comanda.estado);
+        console.log("Enviado +"+this.comanda.enviado);
+        this.servicioComandas.introducirComanda(this.comanda).subscribe(
+          (response) => {
+            console.log(response);
+            this.comanda = (response as Comanda);
+            console.log("La comanda ha sido introducida y es "+this.comanda.id);
+            
+          }
+        );
         
       }
       else{
@@ -163,7 +217,6 @@ export class ComandasComponent implements OnInit {
         );
         console.log("Si hay comanda en proceso en esta mesa "+this.comanda.id);
       }
-      
 
     }
     
@@ -172,105 +225,11 @@ export class ComandasComponent implements OnInit {
   }
 
   //PANEL DE GESTION DE LA MESA.
-  //Si hay una comanda en proceso, se continua con esa.Si tiene solo comandas enviadas, se crea una nueva comanda
-  //con estado enproceso, para trabajar con ella hasta mandarla a cocina.
   crearComanda() {
     document.getElementById("panel_mesa").style.display = "none";
     document.getElementById("categorias").style.display = "flex";
-    //Buscamos cliente sentado en esa mesa
     
-    this.cliente = this.clientes.find((element) => element.id_mesa == this.mesa);
-    
-    console.log("Cliente" + this.cliente.id);
-    //Buscamos si hay una comanda para ese cliente con estado enproceso.
-    let comanda = this.comandas.find(
-      (element) => element.id_cliente == this.cliente.id && element.estado=="enproceso"
-    );
-    
-    console.log("Comanda" + comanda);
-    //Comprobamos si existe la comanda enproceso o o no .
-    if (comanda == undefined) {
-      console.log(
-        "No existe una comanda para el cliente " +
-          this.cliente.id +
-          "Sentado en la mesa" +
-          this.mesa
-      );
-      //Como no existe una comanda para esta mesa, creamos una e introducimos los datos de cliente , empleado que esta clickando y factura
-      this.comanda.id_cliente = this.cliente.id;
-      this.comanda.id_empleado = 2252	;
-      console.log(this.comanda.id);
-      //Comprobamos si el cliente tiene una factura, si no tiene crearemos una nueva factura donde meteremos todas las nuevas comandas,
-      //si existe entonces pondremos en la comanda dicha id de la factura.
-      let factura = this.facturas.find(
-        (element) => element.id_cliente ==this.cliente.id
-      );
-      
-      if (factura == undefined) {
-        //Creamos la factura
-        
-        this.factura.id_cliente = this.cliente.id;   
-       
-        
-        //Introducimos la factura
-        console.log(this.factura);
-        this.servicioFacturas.introducirFactura(this.factura).subscribe();
-        
-        if (
-          confirm(
-            "¿Desea realizar la primera comanda? Se recargarán los datos."
-          )
-        ) { 
-            //Recargamos para tener una factura y ya en la siguiente entrada podremos crear la primera comanda en proceso
-          this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
-            console.log(decodeURI(this.location.path()));
-            this.router.navigate([decodeURI(this.location.path())]);
-            
-          })
-        }
-       
-
-      } //No existe una factura para este cliente
-
-      else {
-        if (
-          confirm(
-            "¿Añadir primer producto?"
-          )
-        ) { 
-          //Buscamos la factura creada para este cliente para obtener id y añadirla a la comanda
-        let factura = this.facturas.find(
-          (element) => element.id_cliente == this.cliente.id
-        );
-        this.comanda.id_factura = factura.id;
-        this.comanda.estado="enproceso";
-        this.comanda.enviado="no";
-        console.log("Empleado "+this.comanda.id_empleado);
-        console.log("Factura +"+this.comanda.id_factura);
-        console.log("Cliente +"+this.comanda.id_cliente);
-        console.log("Estado +"+this.comanda.estado);
-        console.log(this.comanda);
-        this.servicioComandas.introducirComanda(this.comanda).subscribe();
-        //Volvemos para actualizar
-        this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
-          console.log(decodeURI(this.location.path()));
-          this.router.navigate([decodeURI(this.location.path())]);
-        })
-        }  
-        else{
-           //Cancelamos
-        this.router.navigateByUrl("/comandas",{skipLocationChange:true}).then(()=>{
-          console.log(decodeURI(this.location.path()));
-          this.router.navigate([decodeURI(this.location.path())]);
-        })
-        }      
-       
-        
-        
-      } //Existe una factura con otras comandas
-
-
-    } //Si la comanda en proceso no existe
+   
      
 
   }
@@ -376,22 +335,41 @@ export class ComandasComponent implements OnInit {
   //Generamos producto pedido para la comanda en proceso de esta mesa
   generarProductoPedido(event) {
     this.nombre = event.target.innerHTML;
-    let producto = this.productos.find(
-      (element) => element.nombre == this.nombre
-    );
-    //Si existe ya un producto pedido de un producto en concreto , aumentamos su cantidad
+    console.log(this.nombre);
+    console.log("carne");
+    let producto = this.productos.find((element) => element.nombre == this.nombre);
+    console.log(producto.nombre);
     
+    //Si existe ya un producto pedido de un producto en concreto , aumentamos su cantidad 
+    let repetido=this.productos_pedidos.find((element) => element.id_producto==producto.id && element.id_comanda==this.comanda.id);
+    if(repetido){
+      console.log("Ya existe este producto pedido");
+      repetido.cantidad=repetido.cantidad+1;
+      this.servicioProductosPedidos.actualizarProductoPedido(repetido).subscribe();
+    }
+    else{
+     //Si no existe un producto pedido , lo añadimos
+      console.log("PRUEBA"+producto.id);
+      console.log(this.mesa);
+      console.log(this.cliente);
+      
+        this.producto_pedido.id_producto=producto.id;
+      this.producto_pedido.id_comanda=this.comanda.id;
+        console.log("Mesa:"+this.mesa);
+        console.log("Comanda:"+this.comanda.id);
+        console.log("Producto:"+this.producto_pedido);
+        
+        this.servicioProductosPedidos.introducirProductoPedido(this.producto_pedido).subscribe(
+          () => {
+            this.servicioProductosPedidos.obtenerProductosPedidos().subscribe((response) => {
+              this.productos_pedidos = (response as datosProductoPedido).data;
+            });
+          }
+        );
 
+    }
     //let comanda = this.comandas.find();
-  console.log("PRUEBA"+producto.id);
-  console.log(this.mesa);
-  console.log(this.cliente);
-    this.producto_pedido.id_producto=producto.id;
-  this.producto_pedido.id_comanda=this.comanda.id;
-    console.log("Mesa:"+this.mesa);
-    console.log("Comanda:"+this.comanda.id);
-    console.log("Producto:"+this.producto_pedido);
-    this.servicioProductosPedidos.introducirProductoPedido(this.producto_pedido).subscribe();
+ 
     //Cambiar color categoria seleccionada
     /*let productos = document.querySelectorAll<HTMLInputElement>(
       "#productos div"
@@ -417,7 +395,36 @@ export class ComandasComponent implements OnInit {
     })
   }
   pedirCuenta(){
+    let cuenta:number = 0;
+    console.log(this.mesa);
+    //Buscamos factura y cambiamos la cuenta y si esta pagada o no
+    let factura=this.facturas.find((element) => element.id_cliente == this.cliente.id);
+    console.log("Factura"+factura.id);
+    for(let comanda of this.comandas){
+      if(comanda.id_factura==factura.id){
+        for(let producto of this.productos_pedidos){
+          if(producto.id_comanda == comanda.id){
+            let precio=this.productos.find((element) => element.id == producto.id_producto);
+            cuenta=cuenta+(precio.precio*producto.cantidad);
+          }
+          
+        }
+      }
+    }
+    alert("Total : "+cuenta+"€");
     
+    //Buscamos la mesa para alterar su estado
+    let mesa = this.mesas.find((element) => element.id=this.mesa);
+    mesa.estado="vacio";
+    this.servicioMesas.actualizarMesa(mesa).subscribe();
+
+  }
+  onSubmit(){
+    this.mesa_actual.estado="vacio";
+    this.mesa_actual.id_adm=Number(localStorage.getItem("id_adm"));
+    this.mesa_actual.sillas=this.form.get("sillas").value;
+    console.log(this.mesa_actual.sillas);
+    this.servicioMesas.introducirMesa(this.mesa_actual).subscribe();
   }
   prueba() {
     console.log(
