@@ -1,11 +1,33 @@
-<button (click)="prueba()">Prueba</button>
+<div class="container">
+  <h3>
+    Bienvenido {{this.admi.data[0].usuario}}
+  </h3>
+  <table>
+      <tr class="datos">
+          <th>Nombre Completo</th>
+          <td>{{this.admi.data[0].nombre_completo}}</td>
+      </tr>
+      <tr class="datos">
+        <th>Correo</th>
+        <td>{{this.admi.data[0].correo}}</td>
+      </tr>
+      <tr class="datos">
+        <th>Fecha de registro</th>
+        <td>{{this.admi.data[0].created_at | date: 'd/M/y'}}</td>
+      </tr>
+      <tr class="datos">
+        <th>Número de empleados</th>
+        <td>{{ this.n_empleados }}</td>
+      </tr>
+      <tr class="datos">
+        <th>Número de mesas</th>
+        <td> {{ this.n_mesas }}</td>
+      </tr>
+      <tr class="datos">
+        <th>Aforo</th>
+        <td>{{this.aforo}}</td>
+      </tr>
 
-<h3>
-    Página de inicio
-</h3>
-
-<p>Número de empleados {{this.n_empleados}}</p>
-<p>Número de mesas {{this.n_mesas}}</p>
-
-
-
+  </table>
+  
+</div>

@@ -53,10 +53,12 @@ export class CocinaComponent implements OnInit {
     });
   }
   preparado(id){
-    let comandaEntregada=this.comandas.find((element) => element.id ==id);
-    console.log(comandaEntregada.id);
-   // enviarComanda.estado="enviado";
-    //this.servicioComandas.actualizarComanda(enviarComanda).subscribe();
+    let enviarComanda=this.comandas.find((element) => element.id == id);
+    
+    enviarComanda.enviado="si";
+    console.log(enviarComanda);
+    this.servicioComandas.actualizarComanda(enviarComanda).subscribe((error)=>{console.log(error)});
+    
   }
   
 }

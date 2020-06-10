@@ -7,6 +7,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgxPaginationModule } from "ngx-pagination";
 import { FormsModule } from "@angular/forms";
 import { AuthGuard } from "./auth.guard";
+import { HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
 //Componentes
@@ -109,7 +110,7 @@ const appRoutes: Routes = [
     
   ],
   exports:[RouterModule],
-  providers: [],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
