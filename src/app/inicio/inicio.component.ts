@@ -5,6 +5,10 @@ import { ServicioMesasService } from "../servicios/servicio-mesas.service";
 import { Mesa,datosMesas } from "../interfaces/mesa";
 import { ServicioAdministradoresService } from "../servicios/servicio-administradores.service";
 import { Administrador } from "../interfaces/administrador";
+import { Router } from "@angular/router";
+import { Location } from "@angular/common";
+import { PdfMakeWrapper } from "pdfmake-wrapper";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
@@ -18,7 +22,10 @@ export class InicioComponent implements OnInit {
   mesas:Mesa[];
   aforo=0;
   admi;
-  constructor(private servicioEmpleados:ServicioEmpleadosService,private servicioMesas:ServicioMesasService ,private servicioAdm: ServicioAdministradoresService
+  constructor(private servicioEmpleados:ServicioEmpleadosService,private servicioMesas:ServicioMesasService ,
+    private servicioAdm: ServicioAdministradoresService,
+    public router:Router,
+    public location:Location   
     ) { }
 
   ngOnInit(): void {
@@ -41,14 +48,14 @@ export class InicioComponent implements OnInit {
     .subscribe((response) => {
       this.admi = response;
       console.log(this.admi.data[0]);
-      
+        
       
     });
   }
   prueba(){
-    console.log(localStorage.getItem("email"));
-    console.log(localStorage.getItem("password"));
-    console.log(localStorage.getItem("id_adm"));
-
+    PdfMakeWrapper.setFonts(pdfFonts);
+    const pdf:PdfMakeWrapper = new PdfMakeWrapper();
+    pdf.add("Prueba");
+    pdf.create().open();
   }
 }

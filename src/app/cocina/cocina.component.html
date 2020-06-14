@@ -1,25 +1,89 @@
-
 <div class="container">
-<!--CAmbiar para que muestre solo de  comandas de empleados de este administrador-->
-<ng-container *ngFor="let mesa of mesas; let i = index">
-    <ng-container *ngFor="let cliente of clientes">
-  <div   *ngFor="let comanda of comandas">
-    <div class="comanda "
-      *ngIf=" cliente.id_mesa == mesa.id && comanda.id_cliente == cliente.id && comanda.enviado=='no'"
-    >
-        <h2>Comanda nº {{ comanda.id }} para la mesa {{ i + 1 }}</h2>
-      <ng-container *ngFor="let producto of productos">
-        <ng-container *ngFor="let producto_pedido of productos_pedidos">
-          <div *ngIf="producto_pedido.id_producto == producto.id && producto_pedido.id_comanda == comanda.id">
-            Producto {{ producto.nombre }} {{producto_pedido.cantidad}}
-          </div>
-        </ng-container>
-
-      </ng-container>
-      <button (click)="preparado(comanda.id)"
-      id="{{ comanda.id }}">Enviada</button>
-    </div>
+  <div class="botones mt-4" id="botones">
+    <button (click)="espera()"  class="btn btn-primary">Comandas espera <i class="fa fa-cog fa-spin fa-3x fa-fw"></i></button>
+    <button (click)="finalizar()" class="btn btn-success">Comandas listas <i class="fa fa-check" aria-hidden="true"></i></button>
   </div>
-</ng-container >
-</ng-container>
+  <!--Comandas que estan preparandose-->
+  <div id="espera" class="espera"> 
+    <button (click)="volver()" class="btn btn-danger mt-4">Volver panel cocina <i class="fa fa-undo" aria-hidden="true"></i></button>
+
+  <ng-container *ngFor="let mesa of mesas; let i = index" class="espera">
+    <ng-container *ngFor="let cliente of clientes">
+      <div *ngFor="let comanda of comandas">
+        <div
+          class="comanda"
+          *ngIf="
+            cliente.id_mesa == mesa.id &&
+            comanda.id_cliente == cliente.id &&
+            comanda.enviado == 'no' &&
+            comanda.estado == 'enviado'
+          "
+        >
+          <h3>Comanda nº {{ comanda.id }} para la mesa {{ i + 1 }}</h3>
+          <ng-container *ngFor="let producto of productos" class="mt-4">
+            <ng-container *ngFor="let producto_pedido of productos_pedidos">
+              <div
+                *ngIf="
+                  producto_pedido.id_producto == producto.id &&
+                  producto_pedido.id_comanda == comanda.id
+                "
+              >
+                {{ producto.nombre }} : {{ producto_pedido.cantidad }}
+              </div>
+            </ng-container>
+          </ng-container>
+          <button
+            (click)="preparado(comanda.id)"
+            class="btn btn-success mt-4"
+            id="{{ comanda.id }}"
+          >
+            Enviada
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+  <!--Comandas listas-->
+  <div class="lista" id="lista">
+  <button (click)="volver()" class="btn btn-danger">Volver panel cocina <i class="fa fa-undo" aria-hidden="true"></i></button>
+
+  <ng-container *ngFor="let mesa of mesas; let i = index" class="espera">
+    <ng-container *ngFor="let cliente of clientes">
+      <div *ngFor="let comanda of comandas">
+        <div
+          class="comanda"
+          *ngIf="
+            cliente.id_mesa == mesa.id &&
+            comanda.id_cliente == cliente.id &&
+            comanda.enviado == 'si' &&
+            comanda.estado == 'enviado'&& 
+            comanda.listo == 'no'
+          "
+        >
+          <h3>Comanda nº {{ comanda.id }} para la mesa {{ i + 1 }}</h3>
+          <ng-container *ngFor="let producto of productos" class="mt-4">
+            <ng-container *ngFor="let producto_pedido of productos_pedidos">
+              <div
+                *ngIf="
+                  producto_pedido.id_producto == producto.id &&
+                  producto_pedido.id_comanda == comanda.id
+                "
+              >
+                {{ producto.nombre }} : {{ producto_pedido.cantidad }}
+              </div>
+            </ng-container>
+          </ng-container>
+          <button
+            (click)="terminada(comanda.id)"
+            class="btn btn-success mt-4"
+            id="{{ comanda.id }}"
+          >
+            Enviada
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
 </div>

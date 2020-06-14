@@ -28,6 +28,13 @@ export class ServicioEmpleadosService {
       catchError(this.handleError)
     );
   }
+  obtenerEmpleadoDatos(correo,password){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/empleados?filter=correo:"+correo+",contrasena:"+password,httpOptions)
+    .pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
   eliminarEmpleado(id:number):Observable<{}>{
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/empleados/"+id,httpOptions);
   }

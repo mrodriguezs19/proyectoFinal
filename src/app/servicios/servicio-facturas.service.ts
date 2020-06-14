@@ -29,6 +29,10 @@ export class ServicioFacturasService {
   eliminarFactura(id:number):Observable<{}>{
     return this.http.delete("http://pi.diiesmurgi.org/~miguel/public/api/facturas/"+id,httpOptions);
   }
+  actualizarFactura(factura:Factura): Observable<Factura> {
+    return this.http.put<Factura>("http://pi.diiesmurgi.org/~miguel/public/api/facturas/"+factura.id, factura, httpOptions);
+      
+  }
   introducirFactura(factura:Factura) {    
     return this.http.post("http://pi.diiesmurgi.org/~miguel/public/api/facturas",factura,httpOptions);
   }

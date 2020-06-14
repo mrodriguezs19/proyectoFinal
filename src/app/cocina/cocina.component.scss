@@ -1,10 +1,38 @@
-.comanda{
-    border: 1px solid black;
-    display:block;
-    padding: 20px;
-}
+
 .container{
     display: flex;
     padding: 20px;
     flex-wrap: wrap;
+}
+
+.comanda{
+  
+    border: 1px solid black;
+    margin: auto;
+    background:#ffffccfd;
+   
+    padding:1em;
+    box-shadow: 22px 24px 53px -13px rgba(0,0,0,0.38);
+    .titulo{
+      font-weight: bold;
+    }
+    li{
+     list-style: none;
+     margin: auto; 
+    }
+  }
+.lista{
+    display: none;
+}
+.espera{
+    display: none;
+}
+.botones{
+i{
+  font-size: 1em;
+}
+display: flex;
+width: 100%;
+flex-wrap: wrap;
+justify-content: space-evenly;
 }

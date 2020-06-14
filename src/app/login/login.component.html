@@ -16,7 +16,13 @@
                 <input class="input" type="password" name="password" placeholder="Password" id="password" formControlName="password" (blur)="linea('password')">
                 <span class="focus-input"></span>
               </div>
-      
+              <div>
+                <select formControlName="puesto">
+                  <option disabled selected value> -- Elige una opción -- </option>
+                  <option value="empleado" disabled>Empleado</option>
+                  <option value="administrador">Administrador</option>
+                </select>
+              </div>
             
             <div class="d-flex justify-content-center mt-3 login_container">
               <button type="submit" name="button" class="btn login_btn"

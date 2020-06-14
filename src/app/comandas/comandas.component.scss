@@ -24,6 +24,9 @@
       transform: translateY(4px);
     } 
   }
+  .categoria{
+    display: none;
+  }
   .comida,
   .bebida {
     display: none;
@@ -32,7 +35,40 @@
 .panel_mesa{
   display:none;
   flex-direction: column;
+  h2{
+    margin-top: 30px;
+    text-align: center;
+  }
 }
+.comanda{
+  
+  border: 1px solid black;
+  margin: auto;
+  background:#ffffccfd;
+ 
+  padding:1em;
+  box-shadow: 22px 24px 53px -13px rgba(0,0,0,0.38);
+  button{
+   margin: 10px;
+  }
+  .titulo{
+    font-weight: bold;
+  }
+  li{
+   list-style: none;
+   margin: auto; 
+  }
+}
+.botones{
+  button{
+    margin-top:20px;
+  }
+margin-top: 60px;
+ display: flex;
+  justify-content: space-evenly;
+ flex-wrap: wrap;
+}
+
 .productos {
   p {
     background-color: #56ab2f;
@@ -88,6 +124,7 @@
 }
 
 .btn_nuevamesa {
+  
   color: white;
   background:  #56ab2f;
   &:hover {
@@ -98,7 +135,7 @@
 }
 .botones_mesas{
   width: 100%;
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   justify-content: space-evenly;
 }
@@ -109,14 +146,33 @@
   justify-content: space-evenly;
   cursor: pointer;
   flex-wrap: wrap;
-  div {
+  .decoracion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .asiento{
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+
+  }
+  .mesa {
     width: 80px;
     height: 80px;
     margin: 10px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    border: 1px solid black;
+  }
+  .sillas{
+    width: 10px;
+    height: 30px;
+    border-radius: 20%;
     border: 1px solid black;
   }
 }
@@ -128,9 +184,4 @@
 }
 .productos_pedidos{
   
-}
-.botones{
-  border: 1px solid black;
-  display: flex;
-  justify-content: space-evenly;
 }

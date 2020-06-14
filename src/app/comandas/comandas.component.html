@@ -1,33 +1,65 @@
 <div class="container">
   <div id="mesas">
-  <div class="mesas" >
-    <div
-      *ngFor="let mesa of mesas; let i = index"
-      (click)="seleccionarMesa(mesa.id, i)"
-      id="{{ mesa.id }}"
-      [ngClass]="{
-        libre: mesa.estado === 'vacio',
-        lleno: mesa.estado === 'lleno'
-      }"
-    >
-      <p>Mesa {{ i + 1 }}</p>
+    <div class="mesas">
+      <div
+        *ngFor="let mesa of mesas; let i = index"
+        (click)="seleccionarMesa(mesa.id, i)"
+        id="{{ mesa.id }}"
+        class="decoracion"
+      >
+        <div
+          class="sillas"
+          [ngClass]="{
+            libre: mesa.estado === 'vacio',
+            lleno: mesa.estado === 'lleno'
+          }"
+        ></div>
+        <div
+          class="asiento"
+          [ngClass]="{
+            libre: mesa.estado === 'vacio',
+            lleno: mesa.estado === 'lleno'
+          }"
+        ></div>
+        <div
+          class="mesa"
+          [ngClass]="{
+            libre: mesa.estado === 'vacio',
+            lleno: mesa.estado === 'lleno'
+          }"
+        >
+          <p>Mesa {{ i + 1 }}</p>
+        </div>
+        <div
+          class="asiento"
+          [ngClass]="{
+            libre: mesa.estado === 'vacio',
+            lleno: mesa.estado === 'lleno'
+          }"
+        ></div>
+        <div
+          class="sillas"
+          [ngClass]="{
+            libre: mesa.estado === 'vacio',
+            lleno: mesa.estado === 'lleno'
+          }"
+        ></div>
+      </div>
     </div>
-
-    <!--Formulario para añadir mesas , los camareros tambien podrán para facilitar el proceso-->
-    
+    <div class="botones_mesas">
+      <button
+        type="button"
+        class="btn btn_nuevamesa"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        Añadir mesa <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-danger btn-sm rounded-0">
+        Borrar mesa <i class="fa fa-trash" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
-  <div class="botones_mesas">
-  <button
-      type="button"
-      class="btn btn_nuevamesa"
-      data-toggle="modal"
-      data-target="#exampleModal"
-    >
-      Añadir mesa
-    </button>
-    <button>Eliminar mesa</button>
-  </div>
-</div>
 
   <!-- Modal -->
   <div
@@ -84,14 +116,14 @@
   </div>
 
   <div id="panel_mesa" class="panel_mesa">
-    <h2>Mesa {{ this.n_mesa }}</h2>
+    <h2>Panel de la mesa {{ this.n_mesa }}</h2>
     <br />
-    <ul>
+    <ul class="comanda">
       <div *ngIf="this.comanda.id == 0">
         Procesando comanda
       </div>
-      <div *ngIf="this.comanda.id != 0">
-        Comanda en proceso {{ this.comanda.id }}
+      <div class="titulo mb-3" *ngIf="this.comanda.id != 0">
+        Comanda {{ this.comanda.id }}
       </div>
       <ng-container *ngFor="let producto of productos">
         <ng-container *ngFor="let producto_pedido of productos_pedidos">
@@ -102,28 +134,48 @@
             "
           >
             <li>
-              Nombre : {{ producto.nombre }} Cantidad :
-              {{ producto_pedido.cantidad }}
+              
+
+              {{ producto.nombre }} :
+              <button class="btn btn-success" (click)="sumar(producto_pedido.id)">+</button>{{ producto_pedido.cantidad }}<button class="btn btn-danger" (click)="restar(producto_pedido.id)">-</button>
+
+              
             </li>
           </ng-container>
         </ng-container>
       </ng-container>
     </ul>
-    <div class="botones">
-      <button (click)="crearComanda()">Añadir producto</button>
-      <button (click)="volverMesas()">Volver a mesas</button>
-      <button (click)="enviarComanda()">Enviar cocina</button>
-      <button (click)="pedirCuenta()">Pedir cuenta</button>
+    <div class="container botones">
+      
+          <button (click)="crearComanda()" class="btn btn-success">
+            Añadir producto <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+          <button (click)="enviarComanda()" class="btn btn-secondary">
+            Enviar cocina <i class="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
+      
+       
+          <button (click)="pedirCuenta()" class="btn btn-info">
+            Pedir cuenta <i class="fa fa-money" aria-hidden="true"></i>
+          </button>
+          <button (click)="volverMesas()" class="btn btn-danger">
+            Volver a mesas <i class="fa fa-undo" aria-hidden="true"></i>
+          </button>
+        
+      
     </div>
   </div>
-
-  <div class="categorias" id="categorias">
+  
+    <div class="categorias" id="categorias">
+    
     <div id="tapa" (click)="categoria($event)">Tapas</div>
     <div id="racion" (click)="categoria($event)">Raciones</div>
     <div id="entrante" (click)="categoria($event)">Entrantes</div>
     <div id="bebida" (click)="categoria($event)">Bebidas</div>
     <div id="postre" (click)="categoria($event)">Postres</div>
+
   </div>
+
 
   <div class="especialidad" id="especialidad">
     <div id="carne" class="comida" (click)="contenido($event)">Carne</div>
@@ -147,8 +199,11 @@
           producto.especialidad === this.especialidad
         "
       >
-        <p (click)="generarProductoPedido($event)" id="{{producto.id}}">{{producto.nombre}}</p>
+        <p (click)="generarProductoPedido(producto.id)" id="{{ producto.id }}">
+          {{ producto.nombre }}
+        </p>
       </div>
     </div>
+
   </div>
 </div>

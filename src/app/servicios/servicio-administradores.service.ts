@@ -33,6 +33,13 @@ export class ServicioAdministradoresService {
       catchError(this.handleError)
     );
   }
+  obtenerAdminId(id){
+    return this.http.get("http://pi.diiesmurgi.org/~miguel/public/api/administradores?filter=id:"+id)
+    .pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
